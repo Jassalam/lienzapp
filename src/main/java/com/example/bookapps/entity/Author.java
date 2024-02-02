@@ -1,14 +1,16 @@
 package com.example.bookapps.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Entity
 @Table(name = "author")
-public class Author {
+public class Author implements Serializable {
 
      @Id
      @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +27,8 @@ public class Author {
             inverseJoinColumns=@JoinColumn(name="author_id"))
     private List<Book> books = new ArrayList<>();*/
 
-   @OneToMany(fetch = FetchType.LAZY, mappedBy = "author", cascade = CascadeType.ALL)
+   @JsonManagedReference
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "author", cascade = CascadeType.ALL)
     private List<Book> books;
 
 

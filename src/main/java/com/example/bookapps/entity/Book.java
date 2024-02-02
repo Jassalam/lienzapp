@@ -1,18 +1,23 @@
 package com.example.bookapps.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+
+import java.io.Serializable;
 
 
 @Entity
 @Table(name = "book")
 
-public class Book {
+public class Book implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
+
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "author_id")
     private Author author;

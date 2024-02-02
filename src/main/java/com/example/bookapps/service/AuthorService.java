@@ -1,4 +1,4 @@
-/*package com.example.bookapps.service;
+package com.example.bookapps.service;
 
 import com.example.bookapps.entity.Author;
 import com.example.bookapps.entity.Book;
@@ -22,12 +22,14 @@ public class AuthorService {
     public Author saveAuthor(Author author){
         authorRepository.save(author);
         List<Book> books= new ArrayList<>();
-        for(Book bookIn : author.getBookList()){
-            Book book = new Book(bookIn.getName(), bookIn.getId());
+        for(Book bookIn : author.getBooks()){
+            Book book = new Book();
+            book.setId(bookIn.getId());
+            book.setName(bookIn.getName());
             book.setAuthor(author);
             books.add(book);
         }
-
+        author.setBooks(books);
         return author;
     }
 
@@ -41,10 +43,9 @@ public class AuthorService {
         return author;
     }
 
-
-    public List<Author> findAllAuthors(){
-        List<Author> authors = new ArrayList<Author>();
-        authorRepository.findAll().forEach(author -> authors.add(author));
-        return authors;
+    public List<Author> findAllAuthor(){
+        return authorRepository.findAll();
     }
-}*/
+
+
+}

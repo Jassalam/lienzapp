@@ -4,6 +4,7 @@ import com.example.bookapps.entity.Author;
 
 import com.example.bookapps.entity.Book;
 import com.example.bookapps.repositary.AuthorRepository;
+import com.example.bookapps.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,13 +16,13 @@ import java.util.List;
 @RequestMapping("/author")
 public class AuthorController {
     @Autowired
-    private AuthorRepository authorRepository;
+    private AuthorService authorService;
     private Book book;
 
 
     @PostMapping()
     public Author create(@RequestBody Author author) {
-        authorRepository.save(author);
+        authorService.saveAuthor(author);
         List<Book> books= new ArrayList<>();
         for(Book bookIn : author.getBooks()){
             Book book = new Book();
@@ -31,20 +32,24 @@ public class AuthorController {
             books.add(book);
         }
         author.setBooks(books);
-        Author saveAuthor = authorRepository.save(author);
-        return saveAuthor;
-
+        return authorService.saveAuthor(author);
     }
 
     @GetMapping
-    public Iterable<Author> all(){
-        return authorRepository.findAll();
+    public List<Author> all(){
+
+        return authorService.findAllAuthor();
     }
 
     @GetMapping(value = "/{authorid}")
     public Author byId(@PathVariable Long authorid) {
 
-        return authorRepository.findById(authorid).get();
+        return authorService.findAuthorById(authorid);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteAuthor(@PathVariable Long id){
+        authorService.deleteAuthor(id);
     }
 
 }

@@ -1,6 +1,5 @@
-/*package com.example.bookapps.service;
+package com.example.bookapps.service;
 
-import com.example.bookapps.entity.Author;
 import com.example.bookapps.entity.Book;
 import com.example.bookapps.repositary.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,21 +13,17 @@ import java.util.Optional;
 public class BookSevice implements BookServiceI {
     @Autowired
     private BookRepository bookRepository;
+    @Autowired
     private AuthorService authorService;
 
     @Override
-    public Book saveBook(Book book, Author author) {
+    public Book saveBook(Book book) {
         book.setId(book.getId());
         book.setName(book.getName());
-        book.setAuthor(authorService.saveAuthor(author));
+        book.setAuthor(book.getAuthor());
         return book;
     }
 
-    @Override
-    public Book createBook(Book book){
-        bookRepository.save(book);
-        return book;
-    }
     @Override
     public void deleteBook(Long id) {
         bookRepository.deleteById(id);
@@ -48,18 +43,28 @@ public class BookSevice implements BookServiceI {
 
     @Override
     public List<Book> getAllBooks() {
-        List<Book> books = new ArrayList<Book>();
-        bookRepository.findAll().forEach(book1 -> books.add(book1));
-        return books;
+        return new ArrayList<Book>(bookRepository.findAll());
     }
 
     @Override
-    public Book getBookById(Long id) {
-        Book book = bookRepository.findById(id).get();
-        return book;
+    public List<Book> findBookByName(String name) {
+        return bookRepository.findBookByName(name);
+    }
+
+    @Override
+    public List<Book> findBookByAuthorId(Long id) {
+        return null;
+
+
+    }
+
+    @Override
+    public Optional<Book> getBookById(Long id) {
+        return bookRepository.findById(id);
+
     }
 
 
-}*/
+}
 
 

@@ -15,4 +15,3 @@ ALTER TABLE book ADD CONSTRAINT author_id FOREIGN KEY (author_id) REFERENCES
     author (id);
 
 
-select * from book;
